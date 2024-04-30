@@ -150,9 +150,18 @@ class BugDeleteView(DeleteView):
     pk_url_kwarg = 'bug_id'
     success_url = reverse_lazy('quality_control:bugs_list')
     template_name = 'quality_control/bug_confirm_delete.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bug'] = self.get_object()  
+        return context
     
 class FeatureDeleteView(DeleteView):
     model = FeatureRequest
     pk_url_kwarg = 'feature_id'
     success_url = reverse_lazy('quality_control:features_list')
     template_name = 'quality_control/feature_confirm_delete.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['feature'] = self.get_object()  
+        return context
