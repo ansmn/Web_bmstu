@@ -1,0 +1,7 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+        <h1>Страницы системы контроля качеста</h1>
+        <a href="{% url 'quality_control:bugs_list' %}">Список всех багов</a><br>
+        <a href="{% url 'quality_control:features_list' %}">Запросы на улучшение</a>
+{% endblock %}
