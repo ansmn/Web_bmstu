@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from .models import BugReport, FeatureRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 def index(request):
     return render(request, 'quality_control/index.html')
@@ -22,6 +22,30 @@ def bug_detail(request, bug_id):
 def feature_detail(request, feature_id):
     feature = get_object_or_404(FeatureRequest, id=feature_id)
     return render(request, 'quality_control/feature_detail.html', {'feature': feature})
+
+from .forms import BugReportForm
+
+def bug_report(request):
+    if request.method == 'POST':
+        form = BugReportForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('quality_control:bugs_list')
+    else:
+        form = BugReportForm()
+    return render(request, 'quality_control/bug_report_form.html', {'form': form})
+
+from .forms import FeatureRequestForm
+
+def feature_request(request):
+    if request.method == 'POST':
+        form = FeatureRequestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('quality_control:features_list')
+    else:
+        form = FeatureRequestForm()
+    return render(request, 'quality_control/feature_request_form.html', {'form': form})
 
 
 #Class-Based Views
